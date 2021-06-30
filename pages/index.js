@@ -5,6 +5,7 @@ import getBlockchain from '../lib/ethereum.js';
 import Poll from '../lib/Poll.js';
 
 export default function Home() {
+  const [votefinished, setVoteFinished] = useState(false);
   const [alreadyvoted, setAlreadyVoted] = useState(false);
   const [amount, setAmount] = useState(undefined);
   const [web3, setWeb3] = useState(undefined);
@@ -21,9 +22,9 @@ export default function Home() {
       try {
         const { web3, address, amount} = await getBlockchain();
         //const response = await axios.get('/api/get-latest-poll');
-        console.log("get response");
+        // console.log("get response");
         const response = await axios.get('/api/get-latest-poll');
-        console.log(response);
+        // console.log(response);
         setWeb3(web3);
         setAddress(address);
         setAmount(amount);
@@ -31,17 +32,19 @@ export default function Home() {
         setSelectedProposalId(response.data.poll.proposals[0]._id);
         setMessage({payload: undefined, type: undefined});
 
-
         response.data.poll.alreadyVoted.map((post, index) => {
               if (post === address) {
                 setAlreadyVoted(true);
-                console.log(alreadyvoted);
-                console.log("post:"+post+" address:"+address);
+                // console.log(alreadyvoted);
+                // console.log("post:"+post+" address:"+address);
               }
         });
 
+        if(response.data.poll.end > new Date().getTime())
+            setVoteFinished(true);
+
         //console.log(response.data.poll);
-        console.log(response.data.poll.proposals[0]);
+        //console.log(response.data.poll.proposals[0]);
       } catch(e) {
         console.log(e);
         setMessage({
@@ -62,16 +65,16 @@ export default function Home() {
 
   const createVote = async e => {
     e.preventDefault();
-    console.log(e.target.elements);
-    console.log(selectedProposalId);
-    console.log("amount:" + amount);
+    // console.log(e.target.elements);
+    // console.log(selectedProposalId);
+    // console.log("amount:" + amount);
     const response = await axios.post('/api/create-vote', {
       address,
       pollId: poll._id,
       proposalId: selectedProposalId,
       amount: amount
     });
-    console.log(response);
+    // console.log(response);
 
     setAlreadyVoted(true);
     updatePoll(e);
@@ -100,21 +103,29 @@ export default function Home() {
         </div>
       )}
 
+
       {typeof poll === 'undefined' ? null : (
         <Poll poll={poll} />
       )}
 
-      {alreadyvoted ? (
-          <div>
-            <h5 className="card-title">
-              Your vote is counted, thanks for your input.
-            </h5>
-          </div>
-      ) : null}
-
-
-      {alreadyvoted || typeof poll === 'undefined'
-        || typeof selectedProposalId === 'undefined' ? null : (
+      {!votefinished || alreadyvoted || typeof poll === 'undefined'
+        || typeof selectedProposalId === 'undefined' ?
+        <div>
+          {!alreadyvoted ? null : (
+              <div>
+                <h5 className="card-title">
+                  Your vote is counted, thanks for your input.
+                </h5>
+              </div>
+          )}
+          {votefinished ? null : (
+              <div>
+                <h5 className="card-title">
+                  This vote is finished, thanks for your input.
+                </h5>
+              </div>
+          )}
+        </div> : (
         <div className='row'>
           <div className='col'>
             <div className="card">
