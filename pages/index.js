@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head'
 import axios from 'axios';
 import getBlockchain from '../lib/ethereum.js';
-import Poll from '../lib/Poll.js';
+import Poll from '../lib/bar.js';
 
 export default function Home() {
   const [votefinished, setVoteFinished] = useState(false);
@@ -47,6 +47,8 @@ export default function Home() {
         //console.log(response.data.poll.proposals[0]);
       } catch(e) {
         console.log(e);
+        setVoteFinished(true);
+        setAlreadyVoted(false);
         setMessage({
           payload: `Ooops... There was a problem when loading the app: ${e}`,
           type: 'danger'
@@ -90,6 +92,9 @@ export default function Home() {
       <div className="mb-4 mt-4 bg-light rounded-3">
         <div className="container-fluid py-5">
           <h1 className='display-5 fw-bold text-center'>Eat The Blocks Dao</h1>
+          {alreadyvoted ? null : (
+              <h5 className='display-10 fw-bold text-center'>You have {amount} of tokens to vote on your favorite subject!</h5>
+          )}
         </div>
       </div>
 

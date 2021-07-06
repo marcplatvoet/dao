@@ -1,12 +1,35 @@
 import { useState } from 'react';
 import Head from 'next/head'
 import axios from 'axios';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams
+} from "react-router-dom";
+
+
+function Child() {
+  // We can use the `useParams` hook here to access
+  // the dynamic pieces of the URL.
+  let { id } = useParams();
+
+  return (
+    <div>
+      <h3>ID: {id}</h3>
+    </div>
+  );
+}
+
 
 export default function Admin() {
+
   const [message, setMessage] = useState({
-    payload: undefined, 
+    payload: undefined,
     type: undefined
   });
+
   const createPoll = async e => {
     e.preventDefault();
     const name = e.target.elements[0].value;
@@ -17,7 +40,7 @@ export default function Admin() {
     setMessage({payload: 'Creating poll...', type: 'primary'});
     try {
       const response = await axios.post(
-        '/api/create-poll', 
+        '/api/create-poll',
         {
           name,
           end,
@@ -49,36 +72,36 @@ export default function Admin() {
         <form onSubmit={e => createPoll(e)}>
           <div className="mb-3">
             <label htmlFor="name">Name</label>
-            <input 
-              id="name" 
-              type="text" 
-              className="form-control" 
+            <input
+              id="name"
+              type="text"
+              className="form-control"
               defaultValue="Next Youtube video"
             />
           </div>
           <div className="mb-3">
             <label htmlFor="end">End</label>
-            <input 
-              id="end" 
-              type="date" 
-              className="form-control" 
+            <input
+              id="end"
+              type="date"
+              className="form-control"
             />
           </div>
           <div className="mb-3">
             <label htmlFor="proposals">Proposals</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="proposals" 
+            <input
+              type="text"
+              className="form-control"
+              id="proposals"
               placeholder="Proposal 1, Proposal 2, etc..."
             />
           </div>
           <div className="mb-3">
             <label htmlFor="password">Password</label>
-            <input 
-              type="text" 
-              className="form-control" 
-              id="password" 
+            <input
+              type="text"
+              className="form-control"
+              id="password"
             />
           </div>
           <button type="submit" className="btn btn-primary">Submit</button>

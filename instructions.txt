@@ -1,0 +1,15 @@
+If you want to test my voting dapp.
+this is the address: https://dao-eight.vercel.app/
+
+Here is my code for the frontend: https://github.com/marcplatvoet/dao
+
+Install Metamask (if you don't have that yet)
+And select the Kovan test network. this is exacly like the Binance smart chain, but tokens cost anything.
+
+Add this token to your account: 0xB9De1Fe069103Ab76403da6179fA2cc12BDe8F64
+
+Send me your public key or account key, so I can send you some tokens.
+
+my email is marc.platvoet@gmail.com
+
+After this your vote counts with the amount of tokens you have in your wallet.
