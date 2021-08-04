@@ -114,7 +114,7 @@ export default function Home() {
       )}
 
       {!votefinished || alreadyvoted || typeof poll === 'undefined'
-        || typeof selectedProposalId === 'undefined' ?
+        || typeof selectedProposalId === 'undefined' || amount == 0 ?
         <div>
           {!alreadyvoted ? null : (
               <div>
@@ -127,6 +127,13 @@ export default function Home() {
               <div>
                 <h5 className="card-title">
                   This vote is finished, thanks for your input.
+                </h5>
+              </div>
+          )}
+           {amount == 0 ? null : (
+              <div>
+                <h5 className="card-title">
+                  You have no tokens to vote with.
                 </h5>
               </div>
           )}
