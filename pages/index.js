@@ -130,7 +130,7 @@ export default function Home() {
                 </h5>
               </div>
           )}
-           {amount =! 0 ? null : (
+           {amount != 0 ? null : (
               <div>
                 <h5 className="card-title">
                   You have no tokens to vote with.
